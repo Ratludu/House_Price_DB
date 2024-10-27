@@ -4,6 +4,7 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 import plotly.io as pio
 
+
 df = pd.read_csv("all_perth_310121.csv")
 
 df["POSTCODE"] = df["POSTCODE"].apply(str)
@@ -12,6 +13,8 @@ df.sort_values(by = ["BUILD_YEAR"], inplace=True)
 
 app = Dash(__name__)
 
+#########################################################################################################################
+# map chart
 
 def map_graph(df):
     map_fig = px.scatter_map(df, lat = "LATITUDE", lon = "LONGITUDE", color = "PRICE", template = "plotly_dark")
@@ -64,7 +67,7 @@ def line_graph(df):
 app.layout = html.Div([
     dbc.Row([
         dbc.Col([
-            html.H1("House Prices in Perth", style={"textAlign": "left"})
+            html.H1("House Prices in Perth 🏠", style={"textAlign": "left"})
         ], width=12)
     ]),
 
@@ -80,7 +83,7 @@ app.layout = html.Div([
                 style = {"color": "black"}
             )
         ], width = 2),
-                dbc.Col([
+        dbc.Col([
             dcc.Dropdown(
                 id = "Bedroom_dropdown",
                 className="dropdown-item",
@@ -89,7 +92,7 @@ app.layout = html.Div([
                 style = {"color": "black"}
             )
         ], width = 2),
-                dbc.Col([
+        dbc.Col([
             dcc.Dropdown(
                 id = "Bathroom_dropdown",
                 className="dropdown-item",
