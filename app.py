@@ -12,6 +12,7 @@ df["POSTCODE"] = df["POSTCODE"].apply(str)
 df.sort_values(by = ["BUILD_YEAR"], inplace=True)
 
 app = Dash(__name__)
+server = app.server
 
 #########################################################################################################################
 # map chart
@@ -162,4 +163,4 @@ def update_map_graph(suburb, bedroom, bathroom):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run(debug=True)
