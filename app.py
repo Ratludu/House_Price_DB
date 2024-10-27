@@ -3,6 +3,8 @@ import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import plotly.io as pio
+from model import price_prediction
+
 
 
 df = pd.read_csv("all_perth_310121.csv")
@@ -137,7 +139,48 @@ app.layout = html.Div([
         dbc.Col([
             dcc.Graph(figure={}, id="line_graph")
         ])
+    ]),
+
+    dbc.Row([
+        dbc.Col([
+            html.H3("Predict the price of your house:", style={"textAlign": "left"})
+        ], width=10)
+    ]),
+
+    dbc.Row([
+        dbc.Col([
+            dbc.Input(id="input_bedrooms", type="number", placeholder="Enter number of bedrooms"),
+            
+
+        ]),
+        
+        dbc.Col([
+            
+            dbc.Input(id="input_bathrooms", type="number", placeholder="Enter number of bathrooms"),
+            
+
+        ]),
+
+         dbc.Col([
+
+            dbc.Input(id="input_garage", type="number", placeholder="Enter number of garage"),
+
+        ])
+    ]),
+
+    dbc.Row([
+
+        dbc.Col([
+            html.Br()
+        ])
+    ]),
+
+    dbc.Row([
+
+        html.P(id = "output")
     ])
+
+
 
 ])
 
@@ -184,6 +227,20 @@ def update_map_graph(suburb, bedroom, bathroom):
 )
 def func(n_clicks):
     return dcc.send_data_frame(raw_df.to_csv, "mydf.csv")
+
+@callback(
+    Output("output", "children"),
+    Input("input_bedrooms", "value"),
+    Input("input_bathrooms", "value"),
+    Input("input_garage", "value")
+)
+
+def update_output(bedrooms, bathrooms, garage):
+    if bedrooms is not None and bathrooms is not None and garage is not None:
+        return f"The predicted price is: {price_prediction(bedrooms, bathrooms, garage)[0]:,.2f}"
+    else:
+        return "Please enter the number of bedrooms, bathrooms and garage"
+
 
 
 
